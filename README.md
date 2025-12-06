@@ -20,7 +20,7 @@ The repository is designed for developers involved in mainframe integration, mod
 	* GET messages with automatic CCSID conversion
 	* Browse queue messages without removing them
 	* Query queue depth
-	*.env-driven configuration (queue names, host, channel, credentials)
+	* .env-driven configuration (queue names, host, channel, credentials)
 	* JSON message handling
 
 
@@ -43,6 +43,7 @@ The repository is designed for developers involved in mainframe integration, mod
 
 
     pip install pymqi python-dotenv
+
 
 2. Create your .env file
 
@@ -78,3 +79,49 @@ The repository is designed for developers involved in mainframe integration, mod
 
   
 
+**Natural**
+
+ntroduction
+Natural Messaging is a software component that enables Natural applications to interact seamlessly with IBM MQ systems. It supports message-oriented middleware operations (PUT, GET and BROWSE) directly from Natural programs, eliminating the need for low-level MQ APIs.
+
+This functionality is provided through structured views that define the necessary fields and parameters for MQ operations. These views can be accessed using standard Natural syntax, allowing messaging operations to integrate naturally into the programming environment.
+
+Key features:
+
+* PUT: Place messages in queues.
+* GET: Retrieve messages from queues.
+* BROWSE: Inspect messages without removing them from queues.
+
+Natural Messaging views are accessed using the following Natural statements:
+
+PROCESS to perform actions such as PUT or GET.
+
+FIND to browse messages (read-only access).
+
+General syntax:
+
+    PROCESS MQ-QUEUE-VIEW USING
+      FUNCTION     = 'PUT' | 'GET',
+      QMANAGER     = queue-manager-name,
+      QNAME        = queue-name,
+      [optional control or message fields = value]
+      [optional GIVING field-name]
+
+
+MQ View
+
+    1 MQ-QUEUE-VIEW VIEW OF MQ-QUEUE
+     2 ERROR-CODE                /* MQ reason code
+     2 ERROR-TEXT                /* Text describing the reason code
+     2 FUNCTION                  /* Operation: GET, PUT
+     2 QMANAGER                  /* Queue manager name
+     2 QNAME                     /* Queue name
+     2 PRIORITY                  /* Priority (0=low, 9=high)
+     2 MESSAGE-10K               /* Extended message field
+     2 PUT-DATE                  /* Put date (YYYYMMDD)
+     2 PUT-TIME                  /* Put time (HHMMSSTH)
+     2 REPLY-TO-QNAME            /* Queue name for receiving reply
+     2 REPLY-TO-QMANAGER         /* Queue manager to receive reply
+     2 USER-ID                   /* User ID of PUT/GET requester
+
+    
