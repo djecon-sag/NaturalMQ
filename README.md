@@ -24,12 +24,6 @@ The repository is designed for developers involved in mainframe integration, mod
 	* JSON message handling
 
 
-📘 **Natural Samples**
-
-	•	MQPUT and MQGET examples using Natural
-	•	JSON payload integration
-	•	MQMD setup for correct CCSID, FORMAT, and persistence options
-
 📄 **Requirements**
 
 	•	IBM MQ 9.x (z/OS or distributed)
@@ -123,5 +117,17 @@ MQ View
      2 REPLY-TO-QNAME            /* Queue name for receiving reply
      2 REPLY-TO-QMANAGER         /* Queue manager to receive reply
      2 USER-ID                   /* User ID of PUT/GET requester
+
+
+📘 **Natural Samples**
+
+	• BRWIBMMQ Browse MQ Queue (messages not deleted)
+	• GETIBMMQ Get MQ Messages 
+	• PUTIBMMQ Put MQ Messages 
+	• CNTIBMMQ Count MQ Messages
+
+
+
+
 
     
