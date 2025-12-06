@@ -12,7 +12,6 @@ Features:
 - Clean connection handling and error management
 - Suitable for demos, debugging, or one-off queue draining
 
-Author: Your Name
 Tested with: IBM MQ 9.2/9.3 on z/OS + pymqi 1.12+ on Windows
 """
 

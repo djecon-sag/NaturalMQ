@@ -30,4 +30,51 @@ The repository is designed for developers involved in mainframe integration, mod
 	•	JSON payload integration
 	•	MQMD setup for correct CCSID, FORMAT, and persistence options
 
-⸻
+📄 **Requirements**
+
+	•	IBM MQ 9.x (z/OS or distributed)
+	•	Valid SVRCONN channel configured on the mainframe
+	•	Python 3.10+ recommended
+	•	For Natural samples: Natural on z/OS with MQ interface enabled
+
+**Getting Started (Python)**
+
+1. Install dependencies
+
+
+    pip install pymqi python-dotenv
+
+2. Create your .env file
+
+ * Copy .env_example to .env
+ * Update .env using your MQ details
+
+
+    QUEUE_NAME=queue-name
+    QMGR_NAME=queue-manager-name
+    CHANNEL=channel-name
+    HOST_PORT=mqhosturl(mqhostport)
+    USER=username
+    PASSWORD=password
+
+3. Run a script
+
+  Put messages (EBCDIC-safe):
+
+    python PutMqMessages.py
+
+  Put a JSON message
+
+    python PutMqJsonMessage.py
+
+  Get messages
+
+    python GetMqMessages.py
+
+  Get Message Queue Depth / Browse Messages
+
+    python MqQueueUtil.py --mode depth
+    python MqQueueUtil.py --mode browse --max 10
+
+  
+
