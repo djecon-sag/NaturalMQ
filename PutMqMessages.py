@@ -1,0 +1,141 @@
+#!/usr/bin/env python3
+"""
+IBM MQ Message Producer (z/OS Mainframe) using pymqi
+
+This script connects to an IBM MQ queue manager running on z/OS and
+puts a configurable number of text messages onto a target queue.
+
+Key points:
+- Messages are generated as random ASCII text (up to 80 chars)
+- Text is explicitly encoded to EBCDIC CCSID 500 (cp500) before PUT
+- MQMD is set with CodedCharSetId=500 and MQFMT_STRING
+- Uses the same connection pattern as the consumer script
+
+Adjust QMGR_NAME, CHANNEL, HOST_PORT, QUEUE_NAME, USER, PASSWORD
+for your environment as needed.
+"""
+
+import pymqi
+import random
+import string
+from lorem_text import lorem
+from dotenv import load_dotenv
+import os
+
+# =============================================================================
+# Configuration — Update these values for your environment
+# =============================================================================
+load_dotenv()
+QUEUE_NAME = os.getenv("QUEUE_NAME")
+QMGR_NAME  = os.getenv("QMGR_NAME")
+CHANNEL    = os.getenv("CHANNEL")
+HOST_PORT  = os.getenv("HOST_PORT")
+USER       = os.getenv("USER")
+PASSWORD   = os.getenv("PASSWORD")
+
+print("IBM MQ Message Drainer")
+print(f"Host      :", HOST_PORT)
+print(f"Channel   :", CHANNEL)
+print(f"Queue     :", QUEUE_NAME)
+print(f"Queue Mgr :", QMGR_NAME)
+print("-" * 60)
+
+# Convert to bytes for pymqi
+QUEUE_NAME = QUEUE_NAME.encode()
+QMGR_NAME  = QMGR_NAME.encode()
+CHANNEL    = CHANNEL.encode()
+HOST_PORT  = HOST_PORT.encode()
+USER       = USER.encode()
+PASSWORD   = PASSWORD.encode()
+
+# Message generation
+NUM_MESSAGES     = 10        # How many messages to send
+MAX_MESSAGE_LEN  = 80        # Maximum length per message (characters)
+EBCDIC_CODEPAGE  = "cp037"   # EBCDIC CCSID 037
+words            = 10
+# =============================================================================
+# Helper: Generate random text message (ASCII) up to MAX_MESSAGE_LEN
+# =============================================================================
+
+def generate_random_text(max_len: int) -> str:
+    """Generate a random printable ASCII string of length 1..max_len."""
+    length = random.randint(1, max_len)
+    charset = string.ascii_letters + string.digits
+    return "".join(random.choice(charset) for _ in range(length))
+
+
+# =============================================================================
+# Connection setup
+# =============================================================================
+
+print("IBM MQ Message Producer")
+print(f"Host      : {HOST_PORT.decode(errors='ignore')}")
+print(f"Queue     : {QUEUE_NAME.decode(errors='ignore')}")
+print(f"Queue Mgr : {QMGR_NAME.decode(errors='ignore')}")
+print("-" * 60)
+
+# Connection string in the format expected by MQ client
+conn_info = HOST_PORT
+
+# Channel Definition (CD) — describes how to connect
+cd = pymqi.CD()
+cd.ChannelName     = CHANNEL
+cd.ConnectionName  = conn_info
+cd.ChannelType     = pymqi.CMQC.MQCHT_CLNTCONN
+cd.TransportType   = pymqi.CMQC.MQXPT_TCP
+
+# Security Options (SCO) — required when using user/password
+sco = pymqi.SCO()
+
+# Connect to the queue manager
+qmgr = pymqi.QueueManager(None)
+qmgr.connect_with_options(QMGR_NAME, user=USER, password=PASSWORD, cd=cd, sco=sco)
+
+print("Connected to queue manager successfully.\n")
+
+# =============================================================================
+# Open queue for output and put messages
+# =============================================================================
+
+open_options = pymqi.CMQC.MQOO_OUTPUT
+queue = pymqi.Queue(qmgr, QUEUE_NAME, open_options)
+
+# MQMD (message descriptor) and PMO (put message options)
+md = pymqi.MD()
+md.Format          = pymqi.CMQC.MQFMT_STRING
+md.CodedCharSetId  = 500  # EBCDIC CCSID 500 on z/OS
+
+pmo = pymqi.PMO()
+pmo.Options = pymqi.CMQC.MQPMO_NO_SYNCPOINT
+
+print(f"Putting {NUM_MESSAGES} messages (EBCDIC {EBCDIC_CODEPAGE}, up to {MAX_MESSAGE_LEN} chars)...\n")
+
+try:
+    for i in range(1, NUM_MESSAGES + 1):
+        # Generate random ASCII text
+    #    text = generate_random_text(MAX_MESSAGE_LEN)
+        text = lorem.words(words)
+        # Explicitly encode to EBCDIC bytes before PUT
+        data_ebcdic = text.encode(EBCDIC_CODEPAGE)
+
+        # Put the message to the queue
+        queue.put(data_ebcdic, md, pmo)
+        print(f"[{i:04d}] Sent ({len(data_ebcdic)} bytes EBCDIC): {text}")
+
+except pymqi.MQMIError as e:
+    print(f"\nMQ Error while putting messages: {e}")
+    raise
+
+finally:
+    # =============================================================================
+    # Cleanup — always close handles and disconnect
+    # =============================================================================
+    try:
+        queue.close()
+    except Exception:
+        pass
+
+    qmgr.disconnect()
+
+    print("-" * 60)
+    print(f"Finished. Total messages sent: {NUM_MESSAGES}")
