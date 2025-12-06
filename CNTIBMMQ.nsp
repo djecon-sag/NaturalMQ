@@ -1,0 +1,61 @@
+** Example 'BRWIBMMQ': Browse MQ messages.
+************************************************************************
+DEFINE DATA LOCAL
+1 MQ-QUEUE-VIEW VIEW OF MQ-QUEUE
+  2 ERROR-CODE                /* MQ reason code
+  2 ERROR-TEXT                /* Text describing the reason code
+  2 FUNCTION                  /* Operation: GET, PUT
+  2 QMANAGER                  /* Queue manager name
+  2 QNAME                     /* Queue name
+  2 PRIORITY                  /* Priority (0=low, 9=high)
+  2 MESSAGE-10K               /* Extended message field
+  2 PUT-DATE                  /* Put date (YYYYMMDD)
+  2 PUT-TIME                  /* Put time (HHMMSSTH)
+  2 REPLY-TO-QNAME            /* Queue name for receiving reply
+  2 REPLY-TO-QMANAGER         /* Queue manager to receive reply
+  2 USER-ID                   /* User ID of PUT/GET requester
+*
+1 I-MAX      (I4) INIT <10>   /* Default number of messages to be read
+1 Q-MANAGER    (A48)
+1 Q-NAME       (A48)
+1 MSG-CNT    (I4)
+END-DEFINE
+*
+* The browse function lets you inspect the messages in the queue
+* without removing them.
+*
+SET KEY ALL
+INPUT (AD=MITL'_' IP=OFF ZP=ON SG=OFF CD=TU)
+  'Browse Natural Messaging Queue' (I) /
+  '------------------------------' (I) //
+  'Queue name ..................' Q-NAME              /
+  'Queue manager name ..........' Q-MANAGER           /
+  'Maximum number of messages ..' I-MAX (AD=M) ///
+  'Press ENTER to continue or any PF-key to stop.'
+/*
+*
+IF *PF-KEY NE 'ENTR'
+  ESCAPE ROUTINE
+END-IF
+*
+FIND MQ-QUEUE-VIEW WITH
+    MQ-QUEUE-VIEW.QMANAGER = Q-MANAGER AND  /* Name of Queue Manager
+    MQ-QUEUE-VIEW.QNAME    = Q-NAME         /* Name of the Queue
+*
+  ADD 1 TO MSG-CNT
+*
+* Check for error
+*
+  IF ERROR-CODE NE 0
+    PRINT / 'Error occurred while performing the browse function.' /
+    PRINT 'Error code          :  ' ERROR-CODE (AD=L)
+    PRINT 'Error text          :  ' ERROR-TEXT
+    PRINT '*'(70)(I)
+    ESCAPE BOTTOM                  /* Stop processing if error occurs
+  END-IF
+*
+END-FIND
+
+PRINT 'MESSAGE COUNT: ' MSG-CNT
+*
+END
