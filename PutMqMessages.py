@@ -55,16 +55,6 @@ NUM_MESSAGES     = 10        # How many messages to send
 MAX_MESSAGE_LEN  = 80        # Maximum length per message (characters)
 EBCDIC_CODEPAGE  = "cp037"   # EBCDIC CCSID 037
 words            = 10
-# =============================================================================
-# Helper: Generate random text message (ASCII) up to MAX_MESSAGE_LEN
-# =============================================================================
-
-def generate_random_text(max_len: int) -> str:
-    """Generate a random printable ASCII string of length 1..max_len."""
-    length = random.randint(1, max_len)
-    charset = string.ascii_letters + string.digits
-    return "".join(random.choice(charset) for _ in range(length))
-
 
 # =============================================================================
 # Connection setup
