@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="610e55ef-6b6d-40c5-9690-64d88705f9c7" name="Changes" comment="Added MQ Natural sample programs.">
+    <list default="true" id="610e55ef-6b6d-40c5-9690-64d88705f9c7" name="Changes" comment="Update PUTIBMMQ.nsp">
+      <change beforePath="$PROJECT_DIR$/.env_example" beforeDir="false" afterPath="$PROJECT_DIR$/.env_example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PutMqJsonMessage.py" beforeDir="false" afterPath="$PROJECT_DIR$/PutMqJsonMessage.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -246,15 +246,32 @@
       <option name="project" value="LOCAL" />
       <updated>1765059776838</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Updated README.md">
+      <option name="closed" value="true" />
+      <created>1765061642215</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1765061642215</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Update PUTIBMMQ.nsp">
+      <option name="closed" value="true" />
+      <created>1765064839873</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1765064839873</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Readme added." />
     <MESSAGE value="Readme updated" />
     <MESSAGE value="added .env_example" />
-    <MESSAGE value="Updated README.md" />
     <MESSAGE value="Added MQ Natural sample programs." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added MQ Natural sample programs." />
+    <MESSAGE value="Updated README.md" />
+    <MESSAGE value="Update PUTIBMMQ.nsp" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update PUTIBMMQ.nsp" />
   </component>
 </project>

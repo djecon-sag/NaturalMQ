@@ -1,6 +1,6 @@
 📬 **NaturalMQ**
 
-Python & Natural Programming Language Code Samples for IBM WebSphere MQ on z/OS
+Natural Programming Language and Python Code Samples for IBM WebSphere MQ on z/OS
 
 NaturalMQ provides working examples of how to put, get, browse, and inspect messages on IBM MQ (WebSphere MQ) running on z/OS, using:
 	
@@ -10,6 +10,14 @@ NaturalMQ provides working examples of how to put, get, browse, and inspect mess
 The repository is designed for developers involved in mainframe integration, modernization, and hybrid application messaging.
 
 ⸻
+
+📄 **Requirements**
+
+	•	IBM MQ 9.x (z/OS or distributed)
+	•	Valid SVRCONN channel configured on the mainframe
+	•	Python 3.10+ recommended
+	•	For Natural samples: Natural on z/OS with MQ interface enabled
+
 
 
 **Natural Programming Language Samples**
@@ -40,6 +48,10 @@ General syntax:
       [optional control or message fields = value]
       [optional GIVING field-name]
 
+    FIND MQ-QUEUE-VIEW WITH
+      QMANAGER   = queue-manager-name AND
+      QNAME      = queue-name AND
+      [optional control or message filter fields = value]
 
 MQ View
 
@@ -67,8 +79,6 @@ MQ View
 
 
 
-
-
 🐍 Python Samples (pymqi)
 
 	* Connect to z/OS MQ using SVRCONN channels 
@@ -79,13 +89,6 @@ MQ View
 	* .env-driven configuration (queue names, host, channel, credentials)
 	* JSON message handling
 
-
-📄 **Requirements**
-
-	•	IBM MQ 9.x (z/OS or distributed)
-	•	Valid SVRCONN channel configured on the mainframe
-	•	Python 3.10+ recommended
-	•	For Natural samples: Natural on z/OS with MQ interface enabled
 
 **Getting Started (Python)**
 
