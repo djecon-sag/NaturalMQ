@@ -7,9 +7,10 @@ puts a configurable number of text messages onto a target queue.
 
 Key points:
 - Messages are generated as random ASCII text (up to 80 chars)
-- Text is explicitly encoded to EBCDIC CCSID 500 (cp500) before PUT
+- Text is explicitly encoded to EBCDIC before PUT
 - MQMD is set with CodedCharSetId=500 and MQFMT_STRING
 - Uses the same connection pattern as the consumer script
+- Verify the code page configured for your z/OS host.
 
 Adjust QMGR_NAME, CHANNEL, HOST_PORT, QUEUE_NAME, USER, PASSWORD
 for your environment as needed.
@@ -32,6 +33,7 @@ CHANNEL    = os.getenv("CHANNEL")
 HOST_PORT  = os.getenv("HOST_PORT")
 USER       = os.getenv("USER")
 PASSWORD   = os.getenv("PASSWORD")
+MAX_WORDS  = 12
 
 print("IBM MQ Message Drainer")
 print(f"Host      :", HOST_PORT)
@@ -108,13 +110,12 @@ md.CodedCharSetId  = 500  # EBCDIC CCSID 500 on z/OS
 pmo = pymqi.PMO()
 pmo.Options = pymqi.CMQC.MQPMO_NO_SYNCPOINT
 
-print(f"Putting {NUM_MESSAGES} messages (EBCDIC {EBCDIC_CODEPAGE}, up to {MAX_MESSAGE_LEN} chars)...\n")
+print(f"Putting {NUM_MESSAGES} messages (EBCDIC {EBCDIC_CODEPAGE})...\n")
 
 try:
     for i in range(1, NUM_MESSAGES + 1):
         # Generate random ASCII text
-    #    text = generate_random_text(MAX_MESSAGE_LEN)
-        text = lorem.words(words)
+        text = lorem.words(random.randint(3, MAX_WORDS)).capitalize()
         # Explicitly encode to EBCDIC bytes before PUT
         data_ebcdic = text.encode(EBCDIC_CODEPAGE)
 

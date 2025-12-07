@@ -10,6 +10,7 @@ Key points:
 - Text is explicitly encoded to EBCDIC CCSID 500 (cp500) before PUT
 - MQMD is set with CodedCharSetId=500 and MQFMT_STRING
 - Uses the same connection pattern as the consumer script
+- Verify the code page configured for your z/OS host.
 
 Adjust QMGR_NAME, CHANNEL, HOST_PORT, QUEUE_NAME, USER, PASSWORD
 for your environment as needed.
@@ -47,7 +48,7 @@ PASSWORD   = PASSWORD.encode()
 
 # Message generation
 NUM_MESSAGES     = 1         # How many messages to send
-EBCDIC_CODEPAGE  = "cp037"   # EBCDIC CCSID 500
+EBCDIC_CODEPAGE  = "cp037"
 
 # =============================================================================
 # Connection setup

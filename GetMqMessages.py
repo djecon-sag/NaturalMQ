@@ -11,6 +11,7 @@ Features:
 - Automatic data conversion fallback using MQ's built-in convert
 - Clean connection handling and error management
 - Suitable for demos, debugging, or one-off queue draining
+- Verify the code page configured for your z/OS host.
 
 Tested with: IBM MQ 9.2/9.3 on z/OS + pymqi 1.12+ on Windows
 """

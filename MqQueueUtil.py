@@ -10,6 +10,7 @@ Browsing:
 - Uses MQOO_BROWSE + MQGMO_BROWSE_FIRST / MQGMO_BROWSE_NEXT
 - Messages are *not* removed from the queue
 - Attempts automatic MQ conversion; falls back to cp500 (EBCDIC) decode
+- Verify the code page configured for your z/OS host.
 
 Usage examples:
     python MqQueueUtil.py --mode depth

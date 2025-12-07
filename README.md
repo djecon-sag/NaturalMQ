@@ -103,7 +103,6 @@ MQ View
  * Copy .env_example to .env
  * Update .env using your MQ details
 
-
     QUEUE_NAME=queue-name
     QMGR_NAME=queue-manager-name
     CHANNEL=channel-name
@@ -111,7 +110,7 @@ MQ View
     USER=username
     PASSWORD=password
 
-3. Run a script
+3. Python scripts to Put or Get MQ Messages.
 
   Put messages (EBCDIC-safe):
 
